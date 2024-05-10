@@ -1,0 +1,24 @@
+[general]
+port = 6432
+admin_username = "pgcat"
+admin_password = "pgcat"
+
+worker_threads=1
+
+[pools.my_database]
+pool_mode = "session"
+query_parser_enabled = true
+query_parser_read_write_splitting = true
+primary_reads_enabled = true
+
+[pools.my_database.users.0]
+pool_size = 1
+username = "postgres"
+password = "postgres"
+
+[pools.my_database.shards.0]
+database = "postgres"
+servers = [
+    [ "postgres_primary", 5432, "primary" ],
+    [ "postgres_replica", 5432, "replica" ]
+]
