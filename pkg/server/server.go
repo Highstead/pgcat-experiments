@@ -13,6 +13,8 @@ import (
 
 var shuttingDown bool
 
+const PARALLELISM = 100
+
 // ListenAndServe starts the gRPC server that serves API requests.
 func ListenAndServe(addr string, opts ...Option) (chan<- os.Signal, <-chan bool) {
 	svrOpts := makeOptions(opts)
@@ -94,9 +96,8 @@ func gracefulShutdown(dur time.Duration, cancel context.CancelFunc) {
 }
 
 func rebuildPool() {
-
 }
 
 func doStuff(ctx context.Context, ins *inserter.Inserter) {
-	ins.Go(ctx, 2, 2)
+	ins.Go(ctx, PARALLELISM)
 }
